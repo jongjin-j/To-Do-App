@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Header from './components/Header'
 import ToDoItem from './components/ToDoItem'
 import AddToDo from './components/AddToDo'
@@ -10,10 +10,15 @@ export default function App() {
     { title: 'Example To Do', key: '1' }
   ])
 
-  const pressHandler = (key) => {
-    setTodos((previous) => {
-      return previous.filter(todo => todo.key != key)
-    })
+  const pressHandler = (title, key) => {
+    Alert.alert('Are you sure you want to delete the following?', `${title}`, [
+      {text: 'Yes', onPress: () => 
+        setTodos((previous) => {
+          return previous.filter(todo => todo.key != key)
+        })
+      },
+      {text: 'No'}
+    ])
   }
 
   const submitHandler = (text) => {
@@ -26,6 +31,9 @@ export default function App() {
   }
 
   return (
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss()
+    }}>
       <View style={styles.container}>
         <Header/>
         <View>
@@ -40,6 +48,8 @@ export default function App() {
           </View>
         </View>
       </View>
+    </TouchableWithoutFeedback>
+      
   );
 }
 
@@ -49,6 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   list: {
-    marginTop: 10
+    marginTop: 0
   }
 });

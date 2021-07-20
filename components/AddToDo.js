@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 30,
         marginTop: 20,
-        alignItems: 'center'
+        justifyContent: 'center'
     },
     textInput: {
-        width: 220,
+        width: '80%',
         marginVertical: 10,
         paddingHorizontal: 10,
         paddingVertical: 5,
@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginVertical: 10,
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 15,
         borderWidth: 1,
-        borderColor: 'black',
+        borderColor: '#a3d6ff',
         alignItems: 'center'
     },
     addButtonText: {
-        color: 'black',
+        color: '#a3d6ff',
         fontSize: 20,
         fontWeight: '500'
     }
