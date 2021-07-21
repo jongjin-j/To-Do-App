@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { AntDesign } from '@expo/vector-icons'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-export default function ToDoItem({ item, pressHandler }) {
+export default function ToDoItem({ item, toggleHandler, pressHandler }) {
 
     return (
         <View style={styles.itemContainer}>
@@ -12,6 +11,7 @@ export default function ToDoItem({ item, pressHandler }) {
                 fillColor="blue"
                 unfillColor="#FFFFFF"
                 iconStyle={{ borderColor: "blue" }}
+                onPress={() => toggleHandler(item)}
             />
             <TouchableOpacity style={styles.item}>
                 <Text style={styles.itemText}>{item.title}</Text>
