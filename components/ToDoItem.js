@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import { AntDesign } from '@expo/vector-icons'
+import { XCircle } from 'react-native-feather'
+
 
 export default function ToDoItem({ item, toggleHandler, pressHandler }) {
 
@@ -14,10 +15,22 @@ export default function ToDoItem({ item, toggleHandler, pressHandler }) {
                 onPress={() => toggleHandler(item)}
             />
             <TouchableOpacity style={styles.item}>
+                {item.toggle == false ? 
                 <Text style={styles.itemText}>{item.title}</Text>
+                :
+                <Text style={styles.itemTextToggle}>{item.title}</Text>
+                }
             </TouchableOpacity>
             <TouchableOpacity>
-                <AntDesign name="delete" style={styles.icon} onPress={() => pressHandler(item.title, item.key)}/>
+                <XCircle 
+                    stroke="red"
+                    fill="#fff"
+                    width={28} 
+                    height={28}
+                    style={styles.icon} 
+                    onPress={() => pressHandler(item.title, item.key)}
+                    
+                />
             </TouchableOpacity>
         </View>
         
@@ -30,9 +43,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 16,
         justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     item: {
-        width: '70%',
+        width: '75%',
         borderStyle: 'solid',
         borderColor: '#bbb',
         borderWidth: 1,
@@ -41,12 +55,17 @@ const styles = StyleSheet.create({
     },
     itemText: {
         padding: 10,
-        fontSize: 17
+        fontSize: 17,
+    },
+    itemTextToggle: {
+        padding: 10,
+        fontSize: 17,
+        color: 'grey',
+        textDecorationLine: 'line-through', 
+        textDecorationStyle: 'solid'
     },
     icon: {
-        fontSize: 30,
         color: 'red',
-        marginLeft: 15,
-        marginTop: '10%'
+        marginLeft: 10,
     }
 });

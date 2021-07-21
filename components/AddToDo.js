@@ -14,8 +14,13 @@ export default function AddToDo({ submitHandler }) {
                 style={styles.textInput}
                 placeholder='New To Do...'
                 onChangeText={changeHandler}
+                onSubmitEditing={() => submitHandler(text)}
+                clearButtonMode="always"
             />
-            <TouchableOpacity style={styles.addButton} onPress={() => submitHandler(text)}>
+            <TouchableOpacity 
+                style={styles.addButton} 
+                onPress={() => submitHandler(text)}
+            >
                 <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
         </View>
