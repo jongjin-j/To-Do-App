@@ -11,12 +11,12 @@ export default function Header() {
 
 const styles = StyleSheet.create({
     header: {
-      height: '12%',
+      height: 100,
       backgroundColor: '#a58cdb',
       alignItems: 'center',
     },
     title: {
-        marginTop: '13.5%',
+        marginTop: 40,
         fontSize: 25,
         fontWeight: '600',
         color: 'white'

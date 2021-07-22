@@ -44,10 +44,10 @@ export default function App() {
 
   const pressHandler = (title, key) => {
     Alert.alert('Are you sure you want to delete the following?', `${title}`, [
+      {text: 'No'},
       {text: 'Yes', onPress: () => 
         deleteHandler(key)
-      },
-      {text: 'No'}
+      }
     ])
   }
 
@@ -88,7 +88,7 @@ export default function App() {
     }}>
       <View style={styles.container}>
         <Header/>
-        <View>
+        <View style={styles.container2}>
           <AddToDo submitHandler={submitHandler}/>
           <View style={styles.list}>
             <ScrollView>
@@ -101,8 +101,6 @@ export default function App() {
                   )
                 })
               }
-              
-              
             </ScrollView>
           </View>
         </View>
@@ -120,8 +118,6 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   container2: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 100
+    alignItems: 'center'
   }
 });

@@ -20,7 +20,7 @@ export default function AddToDo({ submitHandler }) {
             />
             <TouchableOpacity 
                 style={styles.addButton} 
-                onPress={() => submitHandler(text)}
+                onPress={() => {submitHandler(text); setText('')}}
             >
                 <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textInput: {
+        fontSize: 20,
         width: '80%',
         marginVertical: 10,
         paddingHorizontal: 10,
