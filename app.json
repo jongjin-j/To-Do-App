@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "react-native-app",
-    "slug": "react-native-app",
+    "name": "To-do-app",
+    "slug": "To-do-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/mainIcon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/mainIcon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -14,10 +14,12 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jongjinjung.todoapp",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,7 +28,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/mainIcon.png"
     }
   }
 }
