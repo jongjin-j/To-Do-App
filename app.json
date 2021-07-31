@@ -29,6 +29,7 @@
     },
     "web": {
       "favicon": "./assets/mainIcon.png"
-    }
+    },
+    "userInterfaceStyle": "automatic"
   }
 }
