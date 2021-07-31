@@ -1,17 +1,24 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Modal, TextInput } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { XCircle } from 'react-native-feather'
 
 
-export default function ToDoItem({ item, toggleHandler, pressHandler }) {
+export default function ToDoItem({ item, toggleHandler, pressHandler, editHandler }) {
 
     const dateString = JSON.stringify(item.date)
+
+    const [ title, setTitle ] = useState(item.title)
+    const [ modalOn, setModalOn ] = useState(false)
 
     const stringDate = (date) => {
         if(date[0] == '0'){
             return date.substring(1, date.length).replace('-', '/')
         }
+    }
+
+    const changeHandler = (value) => {
+        setTitle(value)
     }
 
     return (
@@ -22,7 +29,7 @@ export default function ToDoItem({ item, toggleHandler, pressHandler }) {
                 iconStyle={{ borderColor: "blue" }}
                 onPress={() => toggleHandler(item)}
             />
-            <TouchableOpacity style={styles.item}>
+            <TouchableOpacity style={styles.item} onPress={() => setModalOn(true)}>
                 {item.toggle == false ? 
                 <Text style={styles.itemText}>{stringDate(dateString.substring(6, 11))} {item.title}</Text>
                 :
@@ -35,11 +42,26 @@ export default function ToDoItem({ item, toggleHandler, pressHandler }) {
                     fill="#fff"
                     width={28} 
                     height={28}
-                    style={styles.icon} 
+                    style={styles.icon}
                     onPress={() => pressHandler(item.title, item.key)}
-                    
                 />
             </TouchableOpacity>
+            <Modal
+                animationType='fade'
+                visible={modalOn}
+                onRequestClose={() => setModalOn(false)}
+            >
+                <View style={styles.modal}>
+                    <Text>Edit item: </Text>
+                    <TextInput
+                        value={title}
+                        onChangeText={changeHandler}
+                    />
+                </View>
+                <TouchableOpacity style={styles.button} onPress={() => {editHandler(item, title); setModalOn(false);}}>
+                    <Text style={styles.buttonText}>Save</Text>
+                </TouchableOpacity>
+            </Modal>
         </View>
         
     )
@@ -74,6 +96,21 @@ const styles = StyleSheet.create({
     },
     icon: {
         color: 'red',
-        marginLeft: 10,
+        marginLeft: 10
+    },
+    modal: {
+        marginTop: 50,
+        alignItems: 'center'
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'blue',
+        width: 80,
+        height: 30
+    },
+    buttonText: {
+        color: 'white',
+        alignSelf: 'center',
     }
 });

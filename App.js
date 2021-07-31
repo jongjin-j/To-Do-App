@@ -3,8 +3,8 @@ import { Alert, StyleSheet, View, TouchableWithoutFeedback, Keyboard, ScrollView
 import Header from './components/Header'
 import ToDoItem from './components/ToDoItem'
 import AddToDo from './components/AddToDo'
+import DatePicker from './components/DatePicker'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import DateTimePickerModal from "react-native-modal-datetime-picker"
 
 
 export default function App() {
@@ -14,20 +14,6 @@ export default function App() {
   const [pickerVisible, setPickerVisible] = useState(false)
   const [newDate, setNewDate] = useState({date: defaultDate})
   
-
-  const showPicker = () => {
-    setPickerVisible(true)
-  }
-
-  const hidePicker = () => {
-    setPickerVisible(false)
-  }
-
-  const handleConfirm = (date) => {
-    setNewDate({date: date})
-    hidePicker()
-  }
-
   const storeData = async (value) => {
     try {
       const jsonValue = JSON.stringify(value)
@@ -62,6 +48,18 @@ export default function App() {
     fetchTodos()
   }, [])
 
+  const showPicker = () => {
+    setPickerVisible(true)
+  }
+
+  const hidePicker = () => {
+    setPickerVisible(false)
+  }
+
+  const handleConfirm = (date) => {
+    setNewDate({date: date})
+    hidePicker()
+  }
 
   const deleteHandler = (key) => {
     const newTodos = todos.filter(todo => todo.key != key)
@@ -116,6 +114,18 @@ export default function App() {
     }
   }
 
+  const editHandler = (item, title) => {
+    const copyTodos = todos.filter(todo => todo.key !== item.key)
+    const changedTodo = { title: title, key: item.key, toggle: item.toggle, date: item.date }
+
+    const newTodos = [changedTodo, ...copyTodos]
+    const sortByDateTodos = newTodos.sort((x, y) => new Date(x.date) - new Date(y.date))
+    const sortByToggle = sortByDateTodos.sort((x, y) => x.toggle - y.toggle)
+
+    setTodos(sortByToggle)
+    storeData(sortByToggle)
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss()
@@ -124,28 +134,23 @@ export default function App() {
         <Header/>
         <View style={styles.container2}>
           <AddToDo submitHandler={submitHandler}/>
-          <View style={styles.date}>
-            <Text style={styles.default}>Date: </Text>
-            <Text style={[newDate.date != defaultDate ? styles.afterInput : styles.input]}>
-              {newDate.date.toString() != defaultDate ? 
-                newDate.date.toString().substring(4, 15) : 
-                newDate.date.toString()}
-            </Text>
-            <Button title="Select" onPress={showPicker}/>
-            <DateTimePickerModal
-              isVisible={pickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hidePicker}
-            />
-          </View>
+
+          <DatePicker 
+            newDate={newDate} 
+            defaultDate={defaultDate} 
+            showPicker={showPicker} 
+            pickerVisible={pickerVisible}
+            handleConfirm ={handleConfirm}
+            hidePicker={hidePicker}
+          />
+
           <View style={styles.list}>
             <ScrollView>
               {!todos ? null : 
                 todos.map(item => {
                   return(
                     <View key={item.key}>
-                      <ToDoItem item={item} toggleHandler={toggleHandler} pressHandler={pressHandler} />
+                      <ToDoItem item={item} toggleHandler={toggleHandler} pressHandler={pressHandler} editHandler={editHandler} />
                     </View>
                   )
                 })
@@ -169,24 +174,4 @@ const styles = StyleSheet.create({
   container2: {
     alignItems: 'center'
   },
-  date: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    color: 'lightgrey',
-    fontSize: 18,
-    marginRight: 30,
-    marginLeft: 10
-  },
-  afterInput: {
-    color: 'black',
-    fontSize: 18,
-    marginRight: 30,
-    marginLeft: 10
-  },
-  default: {
-    fontSize: 18
-  }
 });
