@@ -6,6 +6,8 @@ import { XCircle } from 'react-native-feather'
 
 export default function ToDoItem({ item, toggleHandler, pressHandler }) {
 
+    const dateString = JSON.stringify(item.date)
+
     const stringDate = (date) => {
         if(date[0] == '0'){
             return date.substring(1, date.length).replace('-', '/')
@@ -22,9 +24,9 @@ export default function ToDoItem({ item, toggleHandler, pressHandler }) {
             />
             <TouchableOpacity style={styles.item}>
                 {item.toggle == false ? 
-                <Text style={styles.itemText}>{stringDate(item.date.toString().substring(5, 10))} {item.title}</Text>
+                <Text style={styles.itemText}>{stringDate(dateString.substring(6, 11))} {item.title}</Text>
                 :
-                <Text style={styles.itemTextToggle}>{stringDate(item.date.toString().substring(5, 10))} {item.title}</Text>
+                <Text style={styles.itemTextToggle}>{stringDate(dateString.substring(6, 11))} {item.title}</Text>
                 }
             </TouchableOpacity>
             <TouchableOpacity>

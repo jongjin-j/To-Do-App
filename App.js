@@ -13,7 +13,6 @@ export default function App() {
   const [todos, setTodos] = useState([])
   const [pickerVisible, setPickerVisible] = useState(false)
   const [newDate, setNewDate] = useState({date: defaultDate})
-
   
 
   const showPicker = () => {
@@ -41,7 +40,12 @@ export default function App() {
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('todos')
-      return jsonValue != null ? JSON.parse(jsonValue) : [{title: 'Example To Do', key: '1', toggle: false, date: Date.now()}];
+      if(jsonValue == null || jsonValue[0].date == undefined){
+        return [{title: 'Example To Do', key: '1', toggle: false, date: new Date()}]
+      }
+      else{
+        return JSON.parse(jsonValue)
+      }
     } catch(e) {
       console.log(e)
     }
@@ -90,7 +94,6 @@ export default function App() {
   const addHandler = (text, date) => {
     const newTodos = [{ title: text, key: Math.random().toString(), toggle: false, date: date }, ...todos]
     const sortTodos = newTodos.sort((x, y) => new Date(x.date) - new Date(y.date))
-    console.log(sortTodos)
     setTodos(sortTodos)
     storeData(sortTodos)
   }
