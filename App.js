@@ -40,11 +40,13 @@ export default function App() {
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('todos')
-      if(jsonValue == null || jsonValue[0].date == undefined){
+      const json = JSON.parse(jsonValue)
+
+      if(jsonValue == null || !json[0].date){
         return [{title: 'Example To Do', key: '1', toggle: false, date: new Date()}]
       }
       else{
-        return JSON.parse(jsonValue)
+        return json
       }
     } catch(e) {
       console.log(e)
