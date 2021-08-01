@@ -50,17 +50,22 @@ export default function ToDoItem({ item, toggleHandler, pressHandler, editHandle
                 animationType='fade'
                 visible={modalOn}
                 onRequestClose={() => setModalOn(false)}
+                style={styles.container}
             >
                 <View style={styles.modal}>
-                    <Text>Edit item: </Text>
+                    <Text style={styles.editText}>Edit item: </Text>
                     <TextInput
                         value={title}
                         onChangeText={changeHandler}
+                        style={styles.inputText}
+                        onSubmitEditing={() => {editHandler(item, title); setModalOn(false);}}
                     />
-                </View>
-                <TouchableOpacity style={styles.button} onPress={() => {editHandler(item, title); setModalOn(false);}}>
+                    <View style={styles.border}/>
+                    <TouchableOpacity style={styles.button} onPress={() => {editHandler(item, title); setModalOn(false);}}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
+                </View>
+                
             </Modal>
         </View>
         
@@ -87,6 +92,21 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 17,
     },
+    editText: {
+        fontSize: 20,
+        fontWeight: '500'
+    },
+    inputText: {
+        fontSize: 20,
+        fontWeight: '400',
+        marginTop: 25,
+    },
+    border: {
+        borderColor: 'black',
+        borderWidth: 0.6,
+        width: 200,
+        marginTop: 2
+    },
     itemTextToggle: {
         padding: 10,
         fontSize: 17,
@@ -99,18 +119,22 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     modal: {
-        marginTop: 50,
-        alignItems: 'center'
+        marginTop: 310,
+        alignItems: 'center',
     },
     button: {
-        alignItems: 'center',
+        alignSelf: 'center',
         justifyContent: 'center',
         backgroundColor: 'blue',
         width: 80,
-        height: 30
+        height: 30,
+        marginTop: 15,
+        borderRadius: 15
     },
     buttonText: {
         color: 'white',
         alignSelf: 'center',
+        fontWeight: '700',
+        fontSize: 16,
     }
 });
