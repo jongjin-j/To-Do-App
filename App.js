@@ -27,6 +27,7 @@ export default function App() {
     try {
       const jsonValue = await AsyncStorage.getItem('todos')
       const json = JSON.parse(jsonValue)
+      console.log(json)
 
       if(jsonValue == null || !json[0].date){
         return [{title: 'Example To Do', key: '1', toggle: false, date: new Date()}]
@@ -93,9 +94,11 @@ export default function App() {
 
   const addHandler = (text, date) => {
     const newTodos = [{ title: text, key: Math.random().toString(), toggle: false, date: date }, ...todos]
-    const sortTodos = newTodos.sort((x, y) => new Date(x.date) - new Date(y.date))
-    setTodos(sortTodos)
-    storeData(sortTodos)
+    const sortByDateTodos = newTodos.sort((x, y) => new Date(x.date) - new Date(y.date))
+    const sortByToggle = sortByDateTodos.sort((x, y) => x.toggle - y.toggle)
+
+    setTodos(sortByToggle)
+    storeData(sortByToggle)
   }
 
   const submitHandler = (text) => {
@@ -165,13 +168,17 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
+    flex: 1
   },
   list: {
-    marginTop: 0
+    marginTop: 10,
+    height: '72%',
+    marginBottom: 10,
+    backgroundColor: '#fff',
+    paddingBottom: 10
   },
   container2: {
-    alignItems: 'center'
-  },
+    alignItems: 'center',
+  }
 });
